@@ -1,0 +1,30 @@
+apiVersion: security.kubearmor.com/v1
+kind: KubeArmorPolicy
+metadata:
+  name: wisecow-zero-trust
+  namespace: default
+spec:
+  action: Block
+  selector:
+    matchLabels:
+      app: wisecow
+  process:
+    matchPaths:
+      # Block almost all common binaries
+      - path: "/bin/*"
+        action: Block
+      - path: "/usr/bin/*"
+        action: Block
+      - path: "/sbin/*"
+        action: Block
+  file:
+    matchPaths:
+      # Block access to critical directories
+      - path: "/etc/*"
+        action: Block
+      - path: "/var/*"
+        action: Block
+      - path: "/tmp/*"
+        action: Block
+      - path: "/home/*"
+        action: Block
